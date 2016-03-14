@@ -1,10 +1,10 @@
 {
-  "name": "node-js-getting-started",
-  "version": "0.1.5",
-  "description": "A sample Node.js app using Express 4",
-  "main": "index.js",
+  "name": "spotify-reddit",
+  "version": "0.1.0",
+  "description": "",
+  "main": "src/app.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node src/app.js"
   },
   "dependencies": {
     "express": "^4.13.4",
@@ -16,12 +16,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/heroku/node-js-getting-started"
+    "url": "https://github.com/connorjburton/spotify-reddit"
   },
   "keywords": [
     "node",
-    "heroku",
     "express"
   ],
-  "license": "MIT"
+  "license": "Apache License 2.0"
 }
