@@ -1,7 +1,6 @@
 "use strict"
 
 module.exports = function() {
-	console.log('in http');
 	const express = require('express');
 	const app = express();
 	app.set('view engine', 'jade');
