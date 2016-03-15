@@ -2,15 +2,16 @@
 
 const SpotifyWebAPI = require('spotify-web-api-node');
 const SpotifyConfig = require('../config/spotify');
+let _ = require('lodash');
 
 class Spotify {
 	constructor() {
 		this.auth = {
-			validate: this._validateAuth.bind(this)
+			validate: _.bind(this._validateAuth, this)
 		}
 
 		this.global = {
-			track: this._findGlobalTrack.bind(this)
+			track: _.bind(this._findGlobalTrack, this)
 		}
 
 		this.playlist = {
