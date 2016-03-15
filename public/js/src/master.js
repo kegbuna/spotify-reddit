@@ -1,3 +1,8 @@
-let hello = 'bye';
+"use strict"
 
-console.log('test');
+let Auth = require('./auth');
+let Helpers = require('./helpers');
+
+Helpers.ready(function() {
+	Auth = new Auth();
+});
