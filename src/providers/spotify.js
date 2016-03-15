@@ -6,11 +6,11 @@ const SpotifyConfig = require('../config/spotify');
 class Spotify {
 	constructor() {
 		this.auth = {
-			validate: this._validateAuth
+			validate: this._validateAuth.bind(this)
 		}
 
 		this.global = {
-			track: this._findGlobalTrack
+			track: this._findGlobalTrack.bind(this)
 		}
 
 		this.playlist = {
@@ -30,6 +30,7 @@ class Spotify {
 	
 	_validateAuth(code) {
 		this.api.authorizationCodeGrant(code).then(function(data) {
+			console.log(data);
 			this.api.setAccessToken(data.body['access_token']);
     		this.api.setRefreshToken(data.body['refresh_token']);
 
