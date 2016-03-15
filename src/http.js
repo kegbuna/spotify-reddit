@@ -5,6 +5,7 @@ module.exports = function() {
 	const app = express();
 	app.set('view engine', 'jade');
 	app.set('views', './views');
+	app.use(express.static('public'));
 	
 	let Spotify = require('./providers/spotify');
 	Spotify = new Spotify();
