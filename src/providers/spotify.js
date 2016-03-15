@@ -5,6 +5,19 @@ const SpotifyConfig = require('../config/spotify');
 
 class Spotify {
 	constructor() {
+		this.Auth = {
+			generate: this._generateAuth,
+			validate: this._validateAuth
+		}
+
+		this.Global = {
+			track: this._findGlobalTrack
+		}
+
+		this.Playlist = {
+			track: this._findPlaylistTrack
+		}
+
 		this.api = new SpotifyWebAPI({
 			redirectUri: SpotifyConfig.redirectUri,
 			clientId: SpotifyConfig.clientId,
@@ -12,15 +25,26 @@ class Spotify {
 		});
 	}
 
-	generateAuth() {
+	_generateAuth() {
 		return this.api.createAuthorizeURL(SpotifyConfig.scopes, 'auth');
 	}
 
-	findTrack(q) {
+	_validateAuth(code) {
+		this.api.authorizationCodeGrant(code).then(function(data) {
+			this.api.setAccessToken(data.body['access_token']);
+    		this.api.setRefreshToken(data.body['refresh_token']);
+
+    		//TODO: save refresh token to DB
+		}, function(err) {
+			console.error('An error occurred!', err);
+		});
+	}
+
+	_findGlobalTrack(q) {
 		this.api.searchTracks(q).then(function(data) {
 			console.log(JSON.stringify(data));
 		}, function(err) {
-			console.log(err);
+			console.error('An error occurred!', err);
 		});
 	}
 }
