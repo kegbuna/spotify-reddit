@@ -1,1 +1,1 @@
-# spotify-reddit
+# Spotify Reddit
