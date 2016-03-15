@@ -15,7 +15,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/spotify/auth/generate', function(req, res) {
-	let url = Spotify.authorizeURL;
+	let url = Spotify.auth.generate();
 	
 	if(url) res.end(url);
 });

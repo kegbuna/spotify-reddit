@@ -6,8 +6,11 @@ let _ = require('lodash');
 
 class Spotify {
 	constructor() {
+		_.bindAll(this, ['_validateAuth', '_generateAuth']);
+
 		this.auth = {
-			validate: _.bind(this._validateAuth, this)
+			validate: this._validateAuth,
+			generate: this._generateAuth
 		}
 
 		this.global = {
@@ -30,14 +33,17 @@ class Spotify {
 	}
 	
 	_validateAuth(code) {
-		this.api.authorizationCodeGrant(code).then(function(data) {
-			console.log(data);
+		this.api.authorizationCodeGrant(code).then((data) => {
 			this.api.setAccessToken(data.body['access_token']);
     		this.api.setRefreshToken(data.body['refresh_token']);
 
     		//TODO: save refresh token to DB
 		}, function(err) {
 			console.error('An error occurred!', err);
+		}).then(() => {
+			this.api.getMe().then((data) => {
+				//console.log(data);
+			});
 		});
 	}
 	
@@ -47,10 +53,6 @@ class Spotify {
 		}, function(err) {
 			console.error('An error occurred!', err);
 		});
-	}
-
-	get authorizeURL() {
-		return this._generateAuth();
 	}
 }
 
