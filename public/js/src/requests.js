@@ -5,13 +5,36 @@ class Requests {
 		this.auth = {
 			generate: this._generateAuthLink
 		}
+
+		this.spotify = {
+			global: {
+				track: this._globalTrack
+			}
+		}
 	}
 
 	_generateAuthLink() {
 		SuperAgent.get('/spotify/auth/generate').end(function(err, res) {
-			let newWindow = window.open(res.text, 'spotify', 'height=600,width=500');
-			if(newWindow.focus) newWindow.focus();
+			if(err) {
+				console.error('Error', err);
+			} else {
+				let newWindow = window.open(res.text, 'spotify', 'height=600,width=500');
+				if(newWindow.focus) newWindow.focus();
+			}
 		});
+	}
+
+	_globalTrack(track) {
+		SuperAgent
+			.get('/spotify/global/track')
+			.query({'track': track})
+			.end(function(err, res) {
+				if(err) {
+					console.error('Error', err);
+				} else {
+					console.log(res)
+				}
+			});
 	}
 }
 

@@ -7,6 +7,7 @@
     "start": "node src/app.js"
   },
   "dependencies": {
+    "cookie-parser": "^1.4.1",
     "express": "^4.13.4",
     "jade": "^1.11.0",
     "lodash": "^4.6.1",
