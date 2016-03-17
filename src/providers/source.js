@@ -1,6 +1,8 @@
 "use strict";
 
-class Source {
+let Provider = require('./provider');
+
+class Source extends Provider {
 	constructor(provider, req) {
 		provider = provider || null;
 		
