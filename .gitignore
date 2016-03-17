@@ -13,7 +13,6 @@ coverage
 .grunt
 .lock-wscript
 build/Release
-node_modules
 .npm
 .node_repl_history
 public/js/dist/*
