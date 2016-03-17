@@ -5,11 +5,11 @@ let Provider = require('./provider');
 let _ = require('lodash');
 
 class Destination extends Provider {
-	constructor(provider) {
+	constructor(provider, req) {
 		provider = provider || null;
 		
 		if(provider) {
-			super('destinations', provider.toLowerCase());
+			super('destinations', provider.toLowerCase(), req);
 		} else {
 			super();
 		}
@@ -27,15 +27,19 @@ class Destination extends Provider {
 	}
 	
 	_generateAuth() {
-		return this.interface.generateAuth.call(this.interface, arguments);
+		return this.interface.generateAuth.apply(this.interface, arguments);
 	}
 
 	_validateAuth() {
-		return this.interface.validateAuth.call(this.interface, arguments);
+		return this.interface.validateAuth.apply(this.interface, arguments);
 	}
 
 	_findGlobalTrack() {
-		return this.interface.findGlobalTrack.call(this.interface, arguments);
+		return this.interface.findGlobalTrack.apply(this.interface, arguments);
+	}
+
+	get currentUser() {
+		return this.interface.currentUser;
 	}
 }
 

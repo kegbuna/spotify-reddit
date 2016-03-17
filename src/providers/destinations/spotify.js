@@ -8,14 +8,18 @@ let Destination = require('../destination');
 let _ = require('lodash');
 
 class Spotify extends Destination {
-	constructor() {
+	constructor(req) {
 		super();
-		
+
 		this.api = new SpotifyWebAPI({
 			redirectUri: SpotifyConfig.redirectUri,
 			clientId: SpotifyConfig.clientId,
 			clientSecret: SpotifyConfig.clientSecret
 		});
+
+		if(_.has(req.cookies, 'access_token')) {
+			this.api.setAccessToken(req.cookies['access_token']);
+		}
 	}
 
 	generateAuth() {
@@ -27,26 +31,26 @@ class Spotify extends Destination {
 			this.api.setAccessToken(data.body['access_token']);
     		this.api.setRefreshToken(data.body['refresh_token']);
 
-    		//res.cookie('access_token', data.body['access_token'], {maxAge: 3600});
-    		//res.cookie('refresh_token', data.body['refresh_token'], {maxAge: 3600});
+    		let expiresOn = new Date(new Date().getTime() + 3600*1000);
+    		res.cookie('access_token', data.body['access_token'], {expires: expiresOn});
+    		res.cookie('refresh_token', data.body['refresh_token'], {expires: expiresOn});
     		//TODO: save refresh token to DB
 		}, function(err) {
-			console.error('An error occurred!', err);
-		}).then(() => {
-			this.api.getMe().then((data) => {
-				//console.log(data);
-				this.api.getUserPlaylists(data.body.id).then((data) => {
-					//console.log(data);
-				});
-			});
+			console.error('An error occurred in validateAuth', err);
 		});
 	}
 	
 	findGlobalTrack(q) {
 		this.api.searchTracks(q).then((data) => {
-			console.log(JSON.stringify(data));
+			//console.log(JSON.stringify(data));
 		}, function(err) {
-			console.error('An error occurred!', err);
+			console.error('An error occurred in findGlobalTrack', err);
+		});
+	}
+
+	get currentUser() {
+		return this.api.getMe().then((data) => {
+			return data.body;
 		});
 	}
 }
