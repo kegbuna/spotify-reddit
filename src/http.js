@@ -16,6 +16,7 @@ app.use(require('express-promise')());
 app.use(require('cookie-parser')(Salts.cookies));
 app.use(function(req, res, next) {
 	req.destination = new Destination('Spotify', req);
+	req.source = new Source('Reddit', req);
 	next();
 });
 
@@ -26,14 +27,6 @@ app.get('/', function(req, res) {
 		authenticated: authenticated,
 		currentUser: req.destination.currentUser
 	});
-});
-
-app.get('/spotify/global/track', function(req, res) {
-	if(_.has(req.query, 'track')) {
-		let track = Spotify.global.track(req.query.track);
-	} else {
-		console.error('No track provided to spotify/global/track');
-	}
 });
 
 app.get('/spotify/auth/generate', function(req, res) {
