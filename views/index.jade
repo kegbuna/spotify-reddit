@@ -1,10 +1,18 @@
 html
 	include partials/header.jade
 	body
-		h1='Spotify Reddit'
-		if authenticated
-			p='You have already connected your spotify account'
-			=currentUser.email
-		else
-			p(data-generate-auth='true')='Get your daily playlist'
+		.wrapper
+			h1='playlists.tech'
+
+			p='Type the sub-reddit you\'d like to get your daily playlists from.'
+
+			input.input--primary(placeholder='/r/_')
+			p='I\'ve already done this, skip'
+
+			if authenticated
+				p='You have already connected your spotify account'
+				=currentUser.email
+			else
+				.btn--spotify(data-generate-auth='true')
+					span='Connect Spotify'
 	include partials/footer.jade

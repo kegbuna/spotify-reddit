@@ -1,0 +1,19 @@
+.input--primary
+{
+border: 1px solid white;
+border-radius: 20px;
+padding: $spacing-small;
+background: none;
+width: 100%;
+font-size: 14px;
+
+	&:focus
+	{
+	outline: none;
+	}
+
+	&::placeholder
+	{
+	color: white;
+	}
+}
