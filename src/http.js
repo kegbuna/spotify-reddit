@@ -8,8 +8,8 @@ const app = express();
 
 let Salts = require('./config/salts');
 
-let Providers = require('./providers/providers');
-let Spotify = new Providers('destination', 'Spotify');
+let Destination = require('./providers/destination');
+let Spotify = new Destination('Spotify');
 
 app.set('view engine', 'jade');
 app.set('views', './views');

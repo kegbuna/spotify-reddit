@@ -1,27 +1,16 @@
 "use strict"
 
 const SpotifyWebAPI = require('spotify-web-api-node');
-const SpotifyConfig = require('../config/spotify');
+const SpotifyConfig = require('../../config/spotify');
+
+let Destination = require('../destination');
 
 let _ = require('lodash');
 
-class Spotify {
+class Spotify extends Destination {
 	constructor() {
-		_.bindAll(this, ['_validateAuth', '_generateAuth', '_findGlobalTrack']);
-
-		this.auth = {
-			validate: this._validateAuth,
-			generate: this._generateAuth
-		}
-
-		this.global = {
-			track: this._findGlobalTrack
-		}
-
-		this.playlist = {
-			track: this._findPlaylistTrack
-		}
-
+		super();
+		
 		this.api = new SpotifyWebAPI({
 			redirectUri: SpotifyConfig.redirectUri,
 			clientId: SpotifyConfig.clientId,
@@ -29,11 +18,11 @@ class Spotify {
 		});
 	}
 
-	_generateAuth() {
+	generateAuth() {
 		return this.api.createAuthorizeURL(SpotifyConfig.scopes, 'auth');
 	}
 	
-	_validateAuth(code, res) {
+	validateAuth(code, res) {
 		return this.api.authorizationCodeGrant(code).then((data) => {
 			this.api.setAccessToken(data.body['access_token']);
     		this.api.setRefreshToken(data.body['refresh_token']);
@@ -53,7 +42,7 @@ class Spotify {
 		});
 	}
 	
-	_findGlobalTrack(q) {
+	findGlobalTrack(q) {
 		this.api.searchTracks(q).then((data) => {
 			console.log(JSON.stringify(data));
 		}, function(err) {
