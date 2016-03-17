@@ -38,14 +38,17 @@ class Spotify {
 			this.api.setAccessToken(data.body['access_token']);
     		this.api.setRefreshToken(data.body['refresh_token']);
 
-    		res.cookie('access_token', data.body['access_token'], {maxAge: 3600});
-    		res.cookie('refresh_token', data.body['refresh_token'], {maxAge: 3600});
+    		//res.cookie('access_token', data.body['access_token'], {maxAge: 3600});
+    		//res.cookie('refresh_token', data.body['refresh_token'], {maxAge: 3600});
     		//TODO: save refresh token to DB
 		}, function(err) {
 			console.error('An error occurred!', err);
 		}).then(() => {
 			this.api.getMe().then((data) => {
 				//console.log(data);
+				this.api.getUserPlaylists(data.body.id).then((data) => {
+					//console.log(data);
+				});
 			});
 		});
 	}
