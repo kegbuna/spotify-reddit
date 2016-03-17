@@ -34,7 +34,7 @@ class Spotify {
 	}
 	
 	_validateAuth(code, res) {
-		this.api.authorizationCodeGrant(code).then((data) => {
+		return this.api.authorizationCodeGrant(code).then((data) => {
 			this.api.setAccessToken(data.body['access_token']);
     		this.api.setRefreshToken(data.body['refresh_token']);
 
