@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 let _ = require('lodash');
 
@@ -36,9 +36,13 @@ app.get('/spotify/auth/generate', function(req, res) {
 });
 
 app.get('/spotify/auth/callback', function(req, res) {
-	Spotify.auth.validate(req.query.code, res);
+	Spotify.auth.validate(req.query.code, res).then(function (data) {
+		res.render('spotify/auth/callback');
+	}, function (err) {
+		//placeholder for rendering an error view or the like
+		res.send(err);
+	});
 
-	res.render('spotify/auth/callback');
 });
 
 app.listen(5000);
