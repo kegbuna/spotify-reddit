@@ -1,1 +1,1 @@
-web: node --harmony src/http.js
+web: node src/http.js
