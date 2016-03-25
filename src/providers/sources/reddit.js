@@ -18,9 +18,9 @@ class Reddit extends Source {
 		return this.api.r('hiphopheads', function(err, data, res) {
 			if(err) {
 				console.err(err);
-			} else {
-				callback(data);
+				return;
 			}
+			callback(data);
 		});
 	}
 }
