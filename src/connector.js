@@ -1,7 +1,9 @@
-"use strict"
+"use strict";
 
 let SourceInterface = require('./providers/source');
 let DestinationInterface = require('./providers/destination');
+
+let Helpers = require('./helpers');
 
 class Connector {
 	constructor(source, destination) {
@@ -16,6 +18,7 @@ class Connector {
 	execute() {
 		this.source.posts.all((posts) => {
 			posts.data.children.forEach((element) => {
+				console.log(Helpers.parseArtistTitle(element.data.title));
 				//this.destination.findGlobalTrack('track: ')
 			});
 		});
