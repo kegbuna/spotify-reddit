@@ -41,7 +41,7 @@ class Spotify extends Destination {
 	}
 	
 	findGlobalTrack(q) {
-		this.api.searchTracks(q).then((data) => {
+		return this.api.searchTracks(q).then((data) => {
 			//console.log(JSON.stringify(data));
 		}, function(err) {
 			console.error('An error occurred in findGlobalTrack', err);

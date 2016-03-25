@@ -6,7 +6,7 @@ class Provider {
 		name = name || null;
 
 		if(type && name) {
-			let api = require('./' + type + '/' + name);
+			let api = require('./' + type + '/' + name.toLowerCase());
 			this.interface = new api(req);
 		}	
 	}

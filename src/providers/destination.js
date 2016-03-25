@@ -9,7 +9,7 @@ class Destination extends Provider {
 		provider = provider || null;
 		
 		if(provider) {
-			super('destinations', provider.toLowerCase(), req);
+			super('destinations', provider, req);
 		} else {
 			super();
 		}

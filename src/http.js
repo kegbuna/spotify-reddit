@@ -8,6 +8,7 @@ let Salts = require('./config/salts');
 
 let Destination = require('./providers/destination');
 let Source = require('./providers/source');
+let Connector = require('./connector');
 
 const app = express();
 app.set('view engine', 'jade');
@@ -18,6 +19,7 @@ app.use(require('cookie-parser')(Salts.cookies));
 app.use(function(req, res, next) {
 	req.destination = new Destination('Spotify', req);
 	req.source = new Source('Reddit', req);
+	req.connector = new Connector(req.source, req.destination);
 	next();
 });
 
@@ -43,7 +45,12 @@ app.get('/spotify/auth/callback', function(req, res) {
 		//placeholder for rendering an error view or the like
 		res.send(err);
 	});
+});
 
+app.get('/connector/', function(req, res) {
+	req.connector.execute();
+
+	res.end();
 });
 
 app.listen(5000);

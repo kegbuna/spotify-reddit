@@ -10,8 +10,8 @@ html
 			p='I\'ve already done this, skip'
 
 			if authenticated
-				p='You have already connected your spotify account'
-				=currentUser.email
+				.btn--spotify(data-connector='true')
+					span='Refresh Playlist'
 			else
 				.btn--spotify(data-generate-auth='true')
 					span='Connect Spotify'

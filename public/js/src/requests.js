@@ -24,10 +24,9 @@ class Requests {
 		});
 	}
 
-	_globalTrack(track) {
+	connector() {
 		SuperAgent
-			.get('/spotify/global/track')
-			.query({'track': track})
+			.get('/connector/')
 			.end(function(err, res) {
 				if(err) {
 					console.error('Error', err);
