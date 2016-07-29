@@ -1,8 +1,8 @@
 "use strict";
 
-let Auth = require('./auth');
-let Connector = require('./connector');
-let Helpers = require('./helpers');
+const Auth = require('./auth');
+const Connector = require('./connector');
+const Helpers = require('./helpers');
 
 Helpers.ready(function() {
 	window.authenticated = function() {
