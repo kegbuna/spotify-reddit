@@ -17,24 +17,24 @@ class Destination extends Provider {
 		_.bindAll(this, ['_validateAuth', '_generateAuth', '_findGlobalTrack']);
 		
 		this.auth = {
-			generate: this._generateAuth,
-			validate: this._validateAuth
+			generate: this.generateAuth,
+			validate: this.validateAuth
 		}
 
 		this.global = {
-			track: this._findGlobalTrack
+			track: this.findGlobalTrack
 		}
 	}
 	
-	_generateAuth() {
+	generateAuth() {
 		return this.interface.generateAuth.apply(this.interface, arguments);
 	}
 
-	_validateAuth() {
+	validateAuth() {
 		return this.interface.validateAuth.apply(this.interface, arguments);
 	}
 
-	_findGlobalTrack() {
+	findGlobalTrack() {
 		return this.interface.findGlobalTrack.apply(this.interface, arguments);
 	}
 
