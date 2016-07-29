@@ -1,4 +1,4 @@
-let SuperAgent = require('superagent');
+const SuperAgent = require('superagent');
 
 class Requests {
 	constructor() {
