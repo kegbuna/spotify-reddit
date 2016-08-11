@@ -3,46 +3,54 @@
 let _ = require('lodash');
 
 let express = require('express');
-let CookieParser = require('cookie-parser');
-const app = express();
 
 let Salts = require('./config/salts');
 
-let Spotify = require('./providers/spotify');
-Spotify = new Spotify();
+let Destination = require('./providers/destination');
+let Source = require('./providers/source');
+let Connector = require('./connector');
 
+const app = express();
 app.set('view engine', 'jade');
 app.set('views', './views');
 app.use(express.static('public'));
-app.use(CookieParser(Salts.cookies));
-
-app.get('/', function(req, res) {
-	//console.log(req.cookies['access_token']);
-	res.render('index');
+app.use(require('express-promise')());
+app.use(require('cookie-parser')(Salts.cookies));
+app.use(function(req, res, next) {
+	req.destination = new Destination('Spotify', req);
+	req.source = new Source('Reddit', req);
+	req.connector = new Connector(req.source, req.destination);
+	next();
 });
 
-app.get('/spotify/global/track', function(req, res) {
-	if(_.has(req.query, 'track')) {
-		let track = Spotify.global.track(req.query.track);
-	} else {
-		console.error('No track provided to spotify/global/track');
+app.get('/', function(req, res) {
+	let data = {
+		authenticated: (_.has(req.cookies, 'access_token') && _.has(req.cookies, 'refresh_token'))
 	}
+	if(data.authenticated) data.currentUser = req.destination.currentUser;
+
+	res.render('index', data);
 });
 
 app.get('/spotify/auth/generate', function(req, res) {
-	let url = Spotify.auth.generate();
+	let url = req.destination.auth.generate();
 
 	if(url) res.end(url);
 });
 
 app.get('/spotify/auth/callback', function(req, res) {
-	Spotify.auth.validate(req.query.code, res).then(function (data) {
+	req.destination.auth.validate(req.query.code, res).then(function(data) {
 		res.render('spotify/auth/callback');
 	}, function (err) {
 		//placeholder for rendering an error view or the like
 		res.send(err);
 	});
+});
 
+app.get('/connector/', function(req, res) {
+	req.connector.execute();
+
+	res.end();
 });
 
 app.listen(5000);
